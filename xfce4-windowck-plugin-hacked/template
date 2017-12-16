@@ -1,0 +1,27 @@
+# Template file for 'xfce4-windowck-plugin-hacked'
+pkgname=xfce4-windowck-plugin-hacked
+version=0.4.4
+revision=1
+build_style=gnu-makefile
+hostmakedepends="intltool xfce4-dev-tools exo-devel python3-devel glib-devel gettext-devel ImageMagick unzip"
+makedepends="libwnck2-devel xfce4-panel-devel xorg-server-devel"
+depends="xfce4-panel>=4.10"
+short_desc="Puts the titlebar of a maximized window into a panel"
+maintainer=" <>"
+homepage="https://github.com/alekseyt/xfce4-windowck-plugin"
+license="GPL-3"
+distfiles="https://github.com/alekseyt/xfce4-windowck-plugin/archive/master.zip"
+checksum=f2c88235af59f9d4fc0dc15559b363c95aecae16a47afa42b4d805a687e48c0d
+conflicts="xfce4-windowck-plugin"
+
+wrksrc="xfce4-windowck-plugin-master"
+
+pre_configure() {
+	autogen_args="--prefix=/usr"
+
+	if [ "$CROSS_BUILD" ]; then
+	autogen_args+="--build=${XBPS_CROSS_TRIPLET} --host=${XBPS_CROSS_TRIPLET}"
+	fi
+
+	xdt-autogen ${autogen_args}
+}
