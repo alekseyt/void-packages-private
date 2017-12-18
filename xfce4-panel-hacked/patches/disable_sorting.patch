@@ -1,0 +1,28 @@
+--- xfce4-panel-4.12.1.orig/plugins/systray/systray-box.c	2016-08-12 00:54:27.000000000 +0300
++++ xfce4-panel-4.12.1/plugins/systray/systray-box.c	2017-12-18 21:10:31.579505239 +0200
+@@ -574,9 +574,11 @@
+   panel_return_if_fail (XFCE_IS_SYSTRAY_BOX (box));
+   panel_return_if_fail (GTK_IS_WIDGET (child));
+   panel_return_if_fail (child->parent == NULL);
+-
++  /*
+   box->childeren = g_slist_insert_sorted (box->childeren, child,
+                                           systray_box_compare_function);
++  */
++  box->childeren = g_slist_prepend (box->childeren, child);
+ 
+   gtk_widget_set_parent (child, GTK_WIDGET (box));
+ 
+@@ -773,10 +775,10 @@
+ systray_box_update (SystrayBox *box)
+ {
+   panel_return_if_fail (XFCE_IS_SYSTRAY_BOX (box));
+-
++  /*
+   box->childeren = g_slist_sort (box->childeren,
+                                  systray_box_compare_function);
+-
++  */
+   /* update the box, so we update the has-hidden property */
+   gtk_widget_queue_resize (GTK_WIDGET (box));
+ }
