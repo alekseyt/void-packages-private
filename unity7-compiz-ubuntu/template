@@ -1,0 +1,58 @@
+pkgname=unity7-compiz-ubuntu
+base_version=0.9.13.1
+extra_version=+17.04.20170109
+version=${base_version}${extra_version}
+revision=1
+wrksrc="."
+
+homepage="http://www.compiz.org/"
+license="GPL"
+short_desc="OpenGL window and compositing manager"
+maintainer=" <>"
+
+distfiles=https://launchpad.net/ubuntu/+archive/primary/+files/compiz_${base_version}${extra_version}.orig.tar.gz
+checksum=d7b249678260a9e2e39d479b1d2fa486418ac8afa38ebee8584bd623e611eb4f
+
+conflicts="compiz-core libcompizconfig ccsm"
+depends="pygtk"
+hostmakedepends="pkg-config cmake intltool"
+makedepends="boost-devel glu-devel dbus-devel fuse-devel libX11-devel libXext-devel
+ libXdamage-devel libXcomposite-devel libXcursor-devel libxcb-devel libXrandr-devel
+ libXinerama-devel libXi-devel libxml2-devel libxslt-devel
+ glib-devel glibmm-devel startup-notification-devel libICE-devel libSM-devel
+ python-devel pygtk-devel Pyrex cairo-devel pango-devel protobuf-devel gtk+3-devel
+ libwnck-devel librsvg-devel libnotify-devel"
+patch_args="-p1"
+
+do_build() {
+	export COMPIZ_DISABLE_RPATH=1
+
+	mkdir -p build && cd build
+
+	# note from Unity-For-Arch:
+	# Compiz will segfault if the CMake built target is set to 'Release'
+	# Disable tests since they can't run on a headless build server
+	cmake .. \
+	        -DCMAKE_INSTALL_PREFIX=/usr \
+        	-DCOMPIZ_BUILD_WITH_RPATH=FALSE \
+	        `# -DCMAKE_BUILD_TYPE=RelWithDebInfo` \
+        	-DCMAKE_BUILD_TYPE=Debug \
+	        -DCOMPIZ_PACKAGING_ENABLED=TRUE \
+        	-DUSE_GSETTINGS=ON \
+	        -DCOMPIZ_DISABLE_GS_SCHEMAS_INSTALL=OFF \
+        	-DCOMPIZ_BUILD_TESTING=OFF \
+	        -DCOMPIZ_DISABLE_PLUGIN_KDE=ON \
+	        -DUSE_KDE4=OFF \
+        	`# Necessary for new versions of Compiz` \
+	        `# https://bugs.launchpad.net/compiz/+bug/1070211` \
+        	-DPYTHON_INCLUDE_DIR=/usr/include/python2.7 \
+	        -DPYTHON_LIBRARY=/usr/lib/libpython2.7.so \
+        	-Dlibdir=/usr/lib \
+	        -Dlibcompizconfig_libdir=/usr/lib
+	make
+}
+
+do_install() {
+	cd build
+	make DESTDIR="$DESTDIR" install
+}

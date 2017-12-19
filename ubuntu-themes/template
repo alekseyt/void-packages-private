@@ -1,0 +1,20 @@
+pkgname=ubuntu-themes
+base_version=16.10
+extra_version=+17.04.20170406
+version=${base_version}${extra_version}
+revision=1
+wrksrc="."
+
+homepage="https://launchpad.net/ubuntu-themes"
+license="GPL CC-BY-SA"
+short_desc="The code and images that provide the Ubuntu interface theme, icon set, and background pictures."
+maintainer=" <>"
+
+distfiles="https://launchpad.net/ubuntu/+archive/primary/+files/ubuntu-themes_${version}.orig.tar.gz"
+checksum=791a316b2e9c07f2891d24535067187d53bb2ab84c256f052e8606f8c6c0c517
+
+do_install() {
+	vmkdir "/usr/share/themes"
+	vcopy Ambiance "/usr/share/themes/"
+	vcopy Radiance "/usr/share/themes/"
+}

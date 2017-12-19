@@ -1,0 +1,23 @@
+--- compiz-0.9.1.orig/compizconfig/libcompizconfig/src/CMakeLists.txt	2017-01-09 17:08:36.000000000 +0200
++++ compiz-0.9.1/compizconfig/libcompizconfig/src/CMakeLists.txt	2017-12-12 07:27:39.653407594 +0200
+@@ -94,6 +94,7 @@
+     m
+     pthread
+     dl
++    util
+     ccs_settings_upgrade_internal
+     ccs_text_file
+ )
+@@ -102,9 +103,9 @@
+ # Tell CMake that targets using compizconfig should NOT re-import the
+ # libraries that compizconfig depends on (contains).
+ #
+-set_target_properties (compizconfig PROPERTIES
+-		       LINK_INTERFACE_LIBRARIES ""
+-)
++#set_target_properties (compizconfig PROPERTIES
++#	LINK_INTERFACE_LIBRARIES ""
++#)
+ 
+ set (COMPIZCONFIG_LIBS "")
+ foreach (_val ${LIBCOMPIZCONFIG_LDFLAGS})

@@ -1,0 +1,27 @@
+pkgname=unity7-emerald
+base_version=0.8.14
+extra_version=
+version=${base_version}${extra_version}
+revision=1
+wrksrc="emerald-${base_version}${extra_version}"
+
+homepage="https://github.com/compiz-reloaded/emerald"
+license="GPL"
+short_desc="Window decorator for Compiz"
+maintainer=" <>"
+
+distfiles=https://github.com/compiz-reloaded/emerald/releases/download/v${version}/emerald-${version}.tar.xz
+checksum=a87f6a7a077da156dd9985998ac2381b525f1d593ef4d5b27e30d016f3868261
+
+conflicts="emerald"
+build_style=gnu-configure
+hostmakedepends="autoconf automake libtool pkg-config intltool"
+makedepends="gettext-devel cairo-devel pango-devel libwnck-devel gtk+3-devel
+ libXi-devel libXrender unity7-compiz-ubuntu"
+
+pre_configure() {
+	mkdir -p m4
+	aclocal -I m4 --install
+	autoreconf --verbose --force --install
+	intltoolize --copy --force --automake
+}

@@ -1,0 +1,22 @@
+pkgname=appmenu-gtk-module
+base_version=0.5.6
+extra_version=
+version=${base_version}${extra_version}
+revision=1
+wrksrc="appmenu-gtk-module"
+
+homepage="https://github.com/rilian-la-te/vala-panel-appmenu"
+license="LGPL"
+short_desc="Global Menu for Vala Panel (and xfce4-panel and mate-panel) - Gtk module"
+maintainer=" <>"
+
+distfiles="https://github.com/rilian-la-te/vala-panel-appmenu/releases/download/${version}/appmenu-gtk-module.tar.gz"
+checksum=d90862c7e632bea4632ee09a45ce8989526ee913b3fd2aed32f28c9240e7c483
+
+hostmakedepends="cmake pkg-config"
+makedepends="gtk+-devel gtk+3-devel"
+
+build_style=cmake
+configure_args="-DENABLE_APPMENU_GTK_MODULE=ON
+	-DCMAKE_INSTALL_PREFIX=/usr
+	-DCMAKE_INSTALL_LIBDIR=/usr/lib"
