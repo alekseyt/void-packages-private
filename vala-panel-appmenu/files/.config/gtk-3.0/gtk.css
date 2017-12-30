@@ -1,0 +1,3 @@
+.-vala-panel-appmenu-bold:first-child > * > label {
+  font-weight: bolder;
+}
