@@ -1,0 +1,26 @@
+pkgname=unity7-glewmx
+version=1.13.0
+revision=1
+wrksrc="glew-${version}"
+
+homepage="http://launchpad.net/ubuntu/+source/glewmx"
+license="GPL"
+short_desc="The OpenGL Extension Wrangler MX"
+maintainer=" <>"
+
+distfiles="http://launchpad.net/ubuntu/+archive/primary/+files/glewmx_${version}.orig.tar.gz"
+checksum=aa25dc48ed84b0b64b8d41cdd42c8f40f149c37fa2ffa39cd97f42c78d128bc7
+
+makedepends="libX11-devel libXi-devel glu-devel"
+
+do_build() {
+	# install to lib instead of lib64
+	# TODO: patch
+	sed -i 's|lib64|lib|' config/Makefile.linux
+
+	make
+}
+
+do_install() {
+	GLEW_PREFIX="$DESTDIR/usr" GLEW_DEST="$DESTDIR/usr" make install install.mx
+}
