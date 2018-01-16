@@ -1,0 +1,11 @@
+--- nux-4.0.8-orig/configure.ac	2017-02-13 15:21:57.000000000 +0200
++++ nux-4.0.8/configure.ac	2017-12-11 04:52:41.623818852 +0200
+@@ -382,7 +382,7 @@
+ dnl ==========================================================================
+ 
+ if test "x$GCC" = "xyes"; then
+-  GCC_FLAGS="-g -Werror -Wall -Wextra -Wno-unused-parameter -std=c++0x"
++  GCC_FLAGS="-g -Wall -Wextra -Wno-unused-parameter -std=c++0x"
+ fi
+ 
+ # gcc flags for building the tests.
