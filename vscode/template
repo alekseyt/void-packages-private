@@ -1,0 +1,46 @@
+pkgname=vscode
+version=1.20.1
+revision=1
+wrksrc="vscode-${version}"
+
+homepage="https://code.visualstudio.com/"
+license="MIT"
+short_desc="Visual Studio Code"
+maintainer=" <>"
+only_for_archs="x86_64"
+nostrip=yes  # non-PIE executable found in PIE build: /usr/share/code-oss/code-oss
+
+distfiles="https://github.com/Microsoft/vscode/archive/${version}.tar.gz"
+checksum=86e13aebd63f3cff73bd517e11d053b41de88a58e058ebb426ddc28e620f5865
+
+hostmakedepends="nodejs-lts python pkg-config libX11-devel libxkbfile-devel libsecret-devel"
+makedepends=""
+
+# build instructions:
+# https://github.com/Microsoft/vscode/wiki/How-to-Contribute
+
+_vscode_arch="x64"  # ia32 for i686
+
+npm-do() {
+	(PATH=$(npm bin):$PATH "$@")
+}
+
+pre_build() {
+	npm install yarn gulp
+	npm-do yarn
+}
+
+do_build() {
+	memlimit="--max_old_space_size=2048"  # fails with oom otherwise
+	npm-do yarn install --arch=${_vscode_arch} $memlimit
+	npm-do gulp vscode-linux-${_vscode_arch} $memlimit
+}
+
+do_install() {
+	vmkdir usr/share/code-oss 755
+	# VSCode-linux-${_vscode_arch} will be in builddir's root
+	vcopy $XBPS_BUILDDIR/VSCode-linux-${_vscode_arch}/* usr/share/code-oss/
+	vinstall $XBPS_BUILDDIR/VSCode-linux-${_vscode_arch}/bin/code-oss 755 usr/bin code-oss
+	vinstall $FILESDIR/code-oss.desktop 644 usr/share/applications code-oss.desktop
+	vinstall LICENSE.txt 644 usr/share/licenses/code-oss LICENSE
+}

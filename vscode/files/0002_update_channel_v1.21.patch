@@ -1,0 +1,13 @@
+diff --git src/vs/platform/update/node/update.config.contribution.ts src/vs/platform/update/node/update.config.contribution.ts
+index c371ffc8d7..7c642419bd 100644
+--- src/vs/platform/update/node/update.config.contribution.ts
++++ src/vs/platform/update/node/update.config.contribution.ts
+@@ -20,7 +20,7 @@ configurationRegistry.registerConfiguration({
+ 		'update.channel': {
+ 			'type': 'string',
+ 			'enum': ['none', 'default'],
+-			'default': 'default',
++			'default': 'none',
+ 			'description': nls.localize('updateChannel', "Configure whether you receive automatic updates from an update channel. Requires a restart after change.")
+ 		},
+ 		'update.enableWindowsBackgroundUpdates': {
