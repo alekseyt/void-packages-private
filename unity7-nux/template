@@ -15,7 +15,7 @@ checksum=79cc86921a8cab90a6a59e72b2e384a231f9063693878b042725df246aa852f6
 
 build_style=gnu-configure
 hostmakedepends="autoconf automake libtool pkg-config"
-makedepends="boost-devel dri2proto glproto glib-devel libsigc++-devel glu-devel libpng-devel
+makedepends="boost-devel xorgproto glib-devel libsigc++-devel glu-devel libpng-devel
 cairo-devel gdk-pixbuf-devel libXinerama-devel libXcomposite-devel libXdamage-devel
 libXfixes-devel libXext-devel libXxf86vm-devel pango-devel pciutils-devel ibus-devel
 unity7-glewmx"
