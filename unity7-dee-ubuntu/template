@@ -1,0 +1,32 @@
+pkgname=unity7-dee-ubuntu
+base_version=1.2.7
+extra_version=+15.04.20150304
+version=${base_version}${extra_version}
+revision=1
+wrksrc="dee-${version}"
+
+homepage="https://launchpad.net/dee"
+license="LGPL"
+short_desc="Model to synchronize multiple instances over DBus"
+maintainer=" <>"
+
+distfiles="https://launchpad.net/ubuntu/+archive/primary/+files/dee_${base_version}${extra_version}.orig.tar.gz"
+checksum=cc7b02c7fa27e590a110ab29e373a39af7f59eafa925d7922739b721a7f2d128
+
+hostmakedepends="autoconf automake libtool pkg-config python python3"
+makedepends="gnome-common vala gtk-doc glib-devel icu-devel"
+patch_args="-p1"
+
+pre_configure() {
+	autoreconf -fi
+}
+
+do_build() {
+	(mkdir -p build_python3 && cd build_python3 && PYTHON=python3 ../configure --prefix=/usr && make)
+	(mkdir -p build_python2 && cd build_python2 && PYTHON=python2 ../configure --prefix=/usr && make)
+}
+
+do_install() {
+	(cd build_python3 && make DESTDIR="$DESTDIR" install)
+	(cd build_python2 && make DESTDIR="$DESTDIR" install)
+}
