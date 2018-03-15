@@ -1,0 +1,33 @@
+diff --git a/common/shlibs b/common/shlibs
+index ffaf59261e..188ab64c94 100644
+--- a/common/shlibs
++++ b/common/shlibs
+@@ -672,6 +672,12 @@ libxfce4kbd-private-3.so.0 libxfce4ui-4.12.1_2
+ libxml++-2.6.so.2 libxml++-2.32.0_1
+ libftgl.so.2 ftgl-2.1.2_1
+ libGLEW.so.2.1 glew-2.1.0_1
++libGLEW.so.1.13 unity7-glewmx-1.13.0_1
++libGLEWmx.so.1.13 unity7-glewmx-1.13.0_1
++libdee-1.0.so.4 unity7-dee-ubuntu-1.2.7+15.04.20150304_1
++libnux-graphics-4.0.so.0 unity7-nux-4.0.8+17.04.20170213_1
++libnux-core-4.0.so.0 unity7-nux-4.0.8+17.04.20170213_1
++libnux-4.0.so.0 unity7-nux-4.0.8+17.04.20170213_1
+ libsndfile.so.1 libsndfile-1.0.20_1
+ libspeex.so.1 libspeex-1.1_1
+ libspeexdsp.so.1 speexdsp-1.2rc2_1
+@@ -2812,9 +2818,12 @@ libuim.so.8 uim-1.8.6_1
+ libuim-scm.so.0 uim-1.8.6_1
+ libuim-custom.so.2 uim-1.8.6_1
+ libgcroots.so.0 uim-1.8.6_1
+-libdecoration.so.0 compiz-core-0.8.14_1
+-libcompizconfig.so.0 libcompizconfig-0.8.14_1
+-libemeraldengine.so.0 emerald-0.8.14_1
++#libdecoration.so.0 compiz-core-0.8.14_1
++#libcompizconfig.so.0 libcompizconfig-0.8.14_1
++libdecoration.so.0 unity7-compiz-ubuntu-0.9.13.1+17.04.20170109_1
++libcompizconfig.so.0 unity7-compiz-ubuntu-0.9.13.1+17.04.20170109_1
++#libemeraldengine.so.0 emerald-0.8.14_1
++libemeraldengine.so.0 unity7-emerald-0.8.14_1
+ libhangul.so.1 libhangul-0.1.0_1
+ libmutter-clutter-1.so mutter-3.26.0_1
+ libmutter-cogl-pango-1.so mutter-3.26.0_1

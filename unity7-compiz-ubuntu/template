@@ -10,7 +10,7 @@ license="GPL"
 short_desc="OpenGL window and compositing manager"
 maintainer=" <>"
 
-distfiles=https://launchpad.net/ubuntu/+archive/primary/+files/compiz_${base_version}${extra_version}.orig.tar.gz
+distfiles=https://launchpad.net/ubuntu/+archive/primary/+files/compiz_${version}.orig.tar.gz
 checksum=d7b249678260a9e2e39d479b1d2fa486418ac8afa38ebee8584bd623e611eb4f
 
 conflicts="compiz-core libcompizconfig ccsm"
@@ -36,7 +36,7 @@ do_build() {
 	        -DCMAKE_INSTALL_PREFIX=/usr \
         	-DCOMPIZ_BUILD_WITH_RPATH=FALSE \
 	        `# -DCMAKE_BUILD_TYPE=RelWithDebInfo` \
-        	-DCMAKE_BUILD_TYPE=Debug \
+        	-DCMAKE_BUILD_TYPE=Release \
 	        -DCOMPIZ_PACKAGING_ENABLED=TRUE \
         	-DUSE_GSETTINGS=ON \
 	        -DCOMPIZ_DISABLE_GS_SCHEMAS_INSTALL=OFF \

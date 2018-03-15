@@ -10,16 +10,16 @@ license="LGPL"
 short_desc="Graphical user interface toolkit for applications that mixes OpenGL hardware acceleration with high quality visual rendering"
 maintainer=" <>"
 
-distfiles="https://launchpad.net/ubuntu/+archive/primary/+files/nux_${base_version}${extra_version}.orig.tar.gz"
+distfiles="https://launchpad.net/ubuntu/+archive/primary/+files/nux_${version}.orig.tar.gz"
 checksum=79cc86921a8cab90a6a59e72b2e384a231f9063693878b042725df246aa852f6
 
-build_style=gnu-configure
 hostmakedepends="autoconf automake libtool pkg-config"
-makedepends="boost-devel xorgproto glib-devel libsigc++-devel glu-devel libpng-devel
-cairo-devel gdk-pixbuf-devel libXinerama-devel libXcomposite-devel libXdamage-devel
-libXfixes-devel libXext-devel libXxf86vm-devel pango-devel pciutils-devel ibus-devel
-unity7-glewmx"
-configure_args="--with-x11 --disable-static --enable-tests=no --enable-gputests=no --enable-examples=no"
+makedepends="boost-devel xorgproto glib-devel libsigc++-devel glu-devel libpng-devel geis-devel
+ cairo-devel gdk-pixbuf-devel pango-devel pciutils-devel ibus-devel
+ libXinerama-devel libXcomposite-devel libXdamage-devel libXfixes-devel libXext-devel libXxf86vm-devel
+ unity7-glewmx"
+build_style=gnu-configure
+configure_args="--prefix=/usr --with-x11 --disable-static --enable-tests=no --enable-gputests=no --enable-examples=no"
 patch_args="-p1"
 
 pre_configure() {
