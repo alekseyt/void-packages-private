@@ -10,11 +10,12 @@ license="LGPL"
 short_desc="Model to synchronize multiple instances over DBus"
 maintainer=" <>"
 
-distfiles="https://launchpad.net/ubuntu/+archive/primary/+files/dee_${base_version}${extra_version}.orig.tar.gz"
+distfiles="https://launchpad.net/ubuntu/+archive/primary/+files/dee_${version}.orig.tar.gz"
 checksum=cc7b02c7fa27e590a110ab29e373a39af7f59eafa925d7922739b721a7f2d128
 
 hostmakedepends="autoconf automake libtool pkg-config python python3"
-makedepends="gnome-common vala gtk-doc glib-devel icu-devel"
+makedepends="gnome-common gobject-introspection vala gtk-doc glib-devel icu-devel"
+configure_flags="--enable-introspection=yes --disable-tests --disable-static --prefix=/usr"
 patch_args="-p1"
 
 pre_configure() {

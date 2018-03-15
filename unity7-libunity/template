@@ -1,0 +1,27 @@
+pkgname=unity7-libunity
+base_version=7.1.4
+extra_version=+16.10.20160516
+version=${base_version}${extra_version}
+revision=1
+wrksrc="."
+
+homepage="https://launchpad.net/libunity"
+license="LGPL"
+short_desc="A library for instrumenting- and integrating with all aspects of the Unity shell."
+maintainer=" <>"
+
+distfiles="https://launchpad.net/ubuntu/+archive/primary/+files/libunity_${version}.orig.tar.gz"
+checksum=27f23041a76fe5dcdfe70f40ad6a4ad1dbf16056506e088117d7405993fb83f6
+
+hostmakedepends="autoconf automake libtool pkg-config"
+makedepends="intltool gettext-devel python-devel gobject-introspection
+ vala libdbusmenu-glib-devel gtk+3-devel glib-devel
+ unity7-dee-ubuntu"
+build_style=gnu-configure
+configure_args="--prefix=/usr --enable-integration-tests=no --enable-headless-tests=no --disable-static"
+patch_args="-p1"
+
+pre_configure() {
+	intltoolize
+	autoreconf -fi
+}
