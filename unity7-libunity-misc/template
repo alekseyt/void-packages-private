@@ -1,0 +1,24 @@
+pkgname=unity7-libunity-misc
+base_version=4.0.5
+extra_version=+14.04.20140115
+version=${base_version}${extra_version}
+revision=1
+wrksrc="libunity-misc-${version}"
+
+homepage="https://launchpad.net/libunity-misc"
+license="GPL LGPL"
+short_desc="Misc. differently licensed stuff for Unity"
+maintainer=" <>"
+
+distfiles="https://launchpad.net/ubuntu/+archive/primary/+files/libunity-misc_${base_version}${extra_version}.orig.tar.gz"
+checksum=197fd17077c3ceac219cbfbe3cfa511a17dd47a86c441c386c7bdec200d119b7
+
+hostmakedepends="autoconf automake libtool pkg-config"
+makedepends="gtk-doc glib-devel gtk+3-devel"
+patch_args="-p1"
+build_style=gnu-configure
+
+pre_configure() {
+	gtkdocize
+	autoreconf -fi
+}
