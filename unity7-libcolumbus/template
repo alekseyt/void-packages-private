@@ -16,4 +16,4 @@ checksum=b57fc4a4d0a90b62273f11d5e9ccde0eb6cce9f220ca300631d95d115690eb79
 hostmakedepends="cmake pkg-config"
 makedepends="icu-devel"
 build_style="cmake"
-configure_flags="-Denable_tests=NO"
+configure_args="-Denable_tests=NO"
