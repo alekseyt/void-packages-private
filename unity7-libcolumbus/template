@@ -1,0 +1,19 @@
+pkgname=unity7-libcolumbus
+base_version=1.1.0
+extra_version=+15.10.20150806
+version=${base_version}${extra_version}
+revision=1
+wrksrc="libcolumbus-${version}"
+
+homepage="https://launchpad.net/libcolumbus"
+license="LGPL"
+short_desc="Libcolumbus is a small, easily embeddable library that provides error tolerant matching and is especially suited for online queries."
+maintainer=" <>"
+
+distfiles="https://launchpad.net/ubuntu/+archive/primary/+files/libcolumbus_${version}.orig.tar.gz"
+checksum=b57fc4a4d0a90b62273f11d5e9ccde0eb6cce9f220ca300631d95d115690eb79
+
+hostmakedepends="cmake pkg-config"
+makedepends="icu-devel"
+build_style="cmake"
+configure_flags="-Denable_tests=NO"
