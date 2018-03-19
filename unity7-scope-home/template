@@ -1,0 +1,25 @@
+pkgname=unity7-scope-home
+base_version=6.8.2
+extra_version=+16.04.20160212.1
+version=${base_version}${extra_version}
+revision=1
+wrksrc="unity-scope-home-${version}"
+
+homepage="https://launchpad.net/unity-scope-home"
+license="GPL"
+short_desc="A scope that aggregates results from multiple scopes for Home Lens view in the Unity Dash."
+maintainer=" <>"
+
+distfiles="https://launchpad.net/ubuntu/+archive/primary/+files/unity-scope-home_${version}.orig.tar.gz"
+checksum=9bea8fa84d94acb53824af2f84b0d60eadead18c1cde3c61a37fd74313763f6e
+
+hostmakedepends="automake autoconf libtool intltool pkg-config vala"
+makedepends="gettext-devel glib-devel json-glib-devel libsoup-gnome-devel
+ libgee08-devel libdbusmenu-glib-devel unity7-dee-ubuntu unity7-libunity"
+build_style="gnu-configure"
+configure_args="--enable-headless-tests=no"
+
+pre_configure() {
+	intltoolize -f
+	autoreconf -fi
+}

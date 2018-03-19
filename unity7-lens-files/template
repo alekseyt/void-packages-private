@@ -1,0 +1,26 @@
+pkgname=unity7-lens-files
+base_version=7.1.0
+extra_version=+17.10.20170605
+version=${base_version}${extra_version}
+revision=1
+wrksrc="."
+
+homepage="https://launchpad.net/unity-lens-files"
+license="GPL"
+short_desc="A daemon exposing your files and file history to Unity"
+maintainer=" <>"
+
+distfiles="https://launchpad.net/ubuntu/+archive/primary/+files/unity-lens-files_${version}.orig.tar.gz"
+checksum=f1642cdf1b6383dd58771c9733b839a6e86d3a79368a07703b91740cf18fac92
+
+hostmakedepends="automake autoconf libtool intltool pkg-config vala"
+makedepends="gettext-devel glib-devel zeitgeist-devel libdbusmenu-glib-devel
+ libgee08-devel unity7-libunity"
+build_style="gnu-configure"
+configure_args=""
+
+pre_configure() {
+	mkdir m4
+	intltoolize -f
+	autoreconf -fi
+}

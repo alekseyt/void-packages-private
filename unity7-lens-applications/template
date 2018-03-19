@@ -1,0 +1,26 @@
+pkgname=unity7-lens-applications
+base_version=7.1.0
+extra_version=+16.10.20160927
+version=${base_version}${extra_version}
+revision=1
+wrksrc="."
+
+homepage="https://launchpad.net/unity-lens-applications"
+license="GPL"
+short_desc="A daemon that exposes you applications with their usage statistics and status to Unity"
+maintainer=" <>"
+
+distfiles="https://launchpad.net/ubuntu/+archive/primary/+files/unity-lens-applications_${version}.orig.tar.gz"
+checksum=b5703a9a5cfdd47d9645ea20df1dcd575715e11ae8ecef3a72047d6225a233af
+
+hostmakedepends="automake autoconf libtool intltool pkg-config vala"
+makedepends="gettext-devel glib-devel libdbusmenu-glib-devel libzeitgeist-devel
+ gnome-menus-devel db-devel xapian-core-devel
+ libgee08-devel unity7-dee-ubuntu unity7-libunity unity7-libcolumbus"
+build_style="gnu-configure"
+configure_args="--enable-headless-tests=no"
+
+pre_configure() {
+	intltoolize -f
+	autoreconf -fi
+}

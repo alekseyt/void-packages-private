@@ -1,0 +1,26 @@
+pkgname=unity7-asset-pool
+base_version=0.8.24
+extra_version=+17.10.20170507
+version=${base_version}${extra_version}
+revision=1
+wrksrc="."
+
+homepage="https://launchpad.net/unity-asset-pool"
+license="CC BY-SA"
+short_desc="Design assets for Unity"
+maintainer=" <>"
+
+distfiles="https://launchpad.net/ubuntu/+archive/primary/+files/unity-asset-pool_${version}.orig.tar.gz"
+checksum=8f3ff7df84daf28165e6f78d1287b54c86d22a1612f66c8655d8bef729a85b8b
+
+hostmakedepends=""
+makedepends=""
+
+do_install() {
+	vmkdir usr/share/unity/themes/
+	vcopy panel/* usr/share/unity/themes/
+	vcopy launcher/* usr/share/unity/themes/
+	
+	vmkdir usr/share/icons/
+	vcopy unity-icon-theme /usr/share/icons/
+}
