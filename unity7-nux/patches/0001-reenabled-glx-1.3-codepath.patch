@@ -1,0 +1,72 @@
+From dbb89741ef7ed2b77247077250379b866b854537 Mon Sep 17 00:00:00 2001
+From: Aleksey Tulinov <aleksey.tulinov@gmail.com>
+Date: Wed, 21 Mar 2018 20:41:08 +0200
+Subject: [PATCH] +reenabled glx 1.3 codepath +selecting visual with alpha to
+ enable transparent framebuffers
+
+---
+ NuxGraphics/GraphicsDisplayX11.cpp | 24 +++++++++++-------------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
+
+diff --git a/NuxGraphics/GraphicsDisplayX11.cpp b/NuxGraphics/GraphicsDisplayX11.cpp
+index fe3c1c1b..d150ef48 100755
+--- a/NuxGraphics/GraphicsDisplayX11.cpp
++++ b/NuxGraphics/GraphicsDisplayX11.cpp
+@@ -34,6 +34,7 @@
+ #include "GraphicsDisplay.h"
+ 
+ #include <X11/extensions/shape.h>
++#include <X11/extensions/Xrender.h>
+ #include <X11/XKBlib.h>
+ 
+ 
+@@ -341,7 +342,7 @@ namespace nux
+       _has_glx_13 = true;
+     }
+ 
+-    _has_glx_13 = false; // force old way. this is temporary...
++    // _has_glx_13 = false; // force old way. this is temporary...
+ 
+     if (_has_glx_13 == false)
+     {
+@@ -436,28 +437,25 @@ namespace nux
+         // Select best multi-sample config.
+         if ((_glx_major >= 1) && (_glx_minor >= 4))
+         {
+-          int best_fbc = -1, worst_fbc = -1, best_num_samp = -1, worst_num_samp = 999;
++          int best_fbc = -1;
+           for (int i = 0; i < fbcount; i++)
+           {
+             XVisualInfo *vi = glXGetVisualFromFBConfig(m_X11Display, fbconfigs[i]);
+             if (vi)
+             {
+-              int sample_buf, samples;
+-              glXGetFBConfigAttrib(m_X11Display, fbconfigs[i], GLX_SAMPLE_BUFFERS, &sample_buf);
+-              glXGetFBConfigAttrib(m_X11Display, fbconfigs[i], GLX_SAMPLES       , &samples);
++              XRenderPictFormat *pf = XRenderFindVisualFormat(m_X11Display, vi->visual);
+ 
+-              //nuxDebugMsg("Matching fbconfig %d, visual ID 0x%2x: SAMPLE_BUFFERS = %d SAMPLES = %d\n", i, vi->visualid, sample_buf, samples);
++              const bool has_alpha_mask = (pf && pf->direct.alphaMask);
+ 
+-              if (((best_fbc < 0) || sample_buf) && (samples > best_num_samp))
+-              {
++              //nuxDebugMsg("fbconfig %d, visual ID 0x%2lx: has alpha mask: %d\n", i, vi->visualid, has_alpha_mask);
++
++              if (best_fbc < 0) // select any for backward compatibility
+                 best_fbc = i;
+-                best_num_samp = samples;
+-              }
+ 
+-              if ((worst_fbc < 0) || (!sample_buf) || (samples < worst_num_samp))
++              if (has_alpha_mask) // prefer visuals with alpha
+               {
+-                worst_fbc = i;
+-                worst_num_samp = samples;
++                best_fbc = i;
++                break;
+               }
+             }
+             XFree(vi);
+-- 
+2.16.2
+
