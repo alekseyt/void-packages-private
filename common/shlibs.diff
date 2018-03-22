@@ -1,8 +1,8 @@
 diff --git a/common/shlibs b/common/shlibs
-index ffaf59261e..95f0221d88 100644
+index 9b669081fa..e03f935b4e 100644
 --- a/common/shlibs
 +++ b/common/shlibs
-@@ -672,6 +672,12 @@ libxfce4kbd-private-3.so.0 libxfce4ui-4.12.1_2
+@@ -677,6 +677,16 @@ libxfce4kbd-private-3.so.0 libxfce4ui-4.12.1_2
  libxml++-2.6.so.2 libxml++-2.32.0_1
  libftgl.so.2 ftgl-2.1.2_1
  libGLEW.so.2.1 glew-2.1.0_1
@@ -12,10 +12,14 @@ index ffaf59261e..95f0221d88 100644
 +libnux-graphics-4.0.so.0 unity7-nux-4.0.8+17.04.20170213_1
 +libnux-core-4.0.so.0 unity7-nux-4.0.8+17.04.20170213_1
 +libnux-4.0.so.0 unity7-nux-4.0.8+17.04.20170213_1
++libunity-protocol-private.so.0 unity7-libunity-7.1.4+16.10.20160516_1
++libunity-extras.so.9 unity7-libunity-7.1.4+16.10.20160516_1
++libunity.so.9 unity7-libunity-7.1.4+16.10.20160516_1
++libcolumbus.so.1 unity7-libcolumbus-1.1.0+15.10.20150806_1
  libsndfile.so.1 libsndfile-1.0.20_1
  libspeex.so.1 libspeex-1.1_1
  libspeexdsp.so.1 speexdsp-1.2rc2_1
-@@ -2812,9 +2818,12 @@ libuim.so.8 uim-1.8.6_1
+@@ -2804,9 +2814,12 @@ libuim.so.8 uim-1.8.6_1
  libuim-scm.so.0 uim-1.8.6_1
  libuim-custom.so.2 uim-1.8.6_1
  libgcroots.so.0 uim-1.8.6_1
@@ -29,5 +33,5 @@ index ffaf59261e..95f0221d88 100644
 +#libemeraldengine.so.0 emerald-0.8.14_1
 +libemeraldengine.so.0 unity7-emerald-0.8.14_1
  libhangul.so.1 libhangul-0.1.0_1
- libmutter-clutter-1.so mutter-3.26.0_1
- libmutter-cogl-pango-1.so mutter-3.26.0_1
+ libmutter-2.so.0 mutter-3.28.0_1
+ libmutter-clutter-1.so mutter-3.28.0_1
