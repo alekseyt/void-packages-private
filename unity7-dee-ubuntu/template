@@ -15,7 +15,7 @@ checksum=cc7b02c7fa27e590a110ab29e373a39af7f59eafa925d7922739b721a7f2d128
 
 hostmakedepends="autoconf automake libtool pkg-config python python3"
 makedepends="gnome-common gobject-introspection vala gtk-doc glib-devel icu-devel"
-configure_flags="--enable-introspection=yes --disable-tests --disable-static --prefix=/usr"
+configure_flags="--enable-introspection=yes --enable-tests=no --disable-static --prefix=/usr"
 patch_args="-p1"
 
 pre_configure() {
@@ -23,8 +23,8 @@ pre_configure() {
 }
 
 do_build() {
-	(mkdir -p build_python3 && cd build_python3 && PYTHON=python3 ../configure --prefix=/usr && make)
-	(mkdir -p build_python2 && cd build_python2 && PYTHON=python2 ../configure --prefix=/usr && make)
+	(mkdir -p build_python3 && cd build_python3 && PYTHON=python3 ../configure ${configure_flags} && make)
+	(mkdir -p build_python2 && cd build_python2 && PYTHON=python2 ../configure ${configure_flags} && make)
 }
 
 do_install() {
