@@ -20,7 +20,7 @@ build_style="gnu-configure"
 configure_args=""
 
 pre_configure() {
-	mkdir m4
+	mkdir -p m4
 	intltoolize -f
 	autoreconf -fi
 }
