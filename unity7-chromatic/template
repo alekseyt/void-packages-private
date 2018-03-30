@@ -1,0 +1,31 @@
+pkgname=unity7-chromatic
+base_version=750.1
+extra_version=
+version=${base_version}${extra_version}
+revision=1
+wrksrc="unity7-dbg"
+
+homepage="https://github.com/alekseyt/unity7"
+license="GPL"
+short_desc="Chromatic launcher (derived from Unity 7)"
+maintainer=" <>"
+
+distfiles=https://github.com/alekseyt/unity7/archive/dbg.tar.gz
+checksum=c22437140c78087f0139ac7547afe7bc9128e46505568a8f47164655c90b1d26
+
+depends="unity7-scope-home unity7-lens-applications unity7-lens-files"
+hostmakedepends="pkg-config cmake intltool"
+makedepends="gtk+3-devel gnome-desktop-devel libnotify-devel
+ appstream-glib-devel json-glib-devel libdbusmenu-glib-devel glibmm-devel
+ startup-notification-devel libsigc++-devel
+ libX11-devel libXi-devel libXfixes-devel libXrender-devel glu-devel
+ libICE-devel libSM-devel zeitgeist-devel libxslt-devel boost-devel
+ bamf-devel libindicator-devel geis-devel
+ unity7-nux unity7-libunity unity7-libunity-misc unity7-compiz-ubuntu"
+
+build_style="cmake"
+configure_args="-DENABLE_UNIT_TESTS=0"
+
+post_install() {
+	cp "$FILESDIR"/void-bfb.png "$DESTDIR"/usr/share/unity/icons/launcher_bfb.png
+}
