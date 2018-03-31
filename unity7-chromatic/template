@@ -11,9 +11,9 @@ short_desc="Chromatic launcher (derived from Unity 7)"
 maintainer=" <>"
 
 distfiles=https://github.com/alekseyt/unity7/archive/${version}.tar.gz
-checksum=e3924298c3a7728d68637618d644036009e66e52ad206d59d3bf076a9fa11235
+checksum=db2f51ae57876a33761cd1b7bca4a8d753708139900618dd8f91d8062022b528
 
-depends="unity7-scope-home unity7-lens-applications unity7-lens-files"
+depends="unity7-asset-pool unity7-scope-home unity7-lens-applications unity7-lens-files"
 hostmakedepends="pkg-config cmake intltool"
 makedepends="gtk+3-devel gnome-desktop-devel libnotify-devel
  appstream-glib-devel json-glib-devel libdbusmenu-glib-devel glibmm-devel
