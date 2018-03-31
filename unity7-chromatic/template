@@ -29,4 +29,5 @@ configure_args="-DENABLE_UNIT_TESTS=0"
 post_install() {
 	cp "$FILESDIR"/void-bfb.png "$DESTDIR"/usr/share/unity/icons/launcher_bfb.png
 	cp "$FILESDIR"/chromatic "$DESTDIR"/usr/bin/chromatic
+	cp -r "$FILESDIR"/locale/* "$DESTDIR"/usr/share/locale/
 }
