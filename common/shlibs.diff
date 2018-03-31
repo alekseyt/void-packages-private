@@ -1,8 +1,8 @@
 diff --git a/common/shlibs b/common/shlibs
-index 9b669081fa..e03f935b4e 100644
+index eb2cb3a0d0..54ae3eb1dd 100644
 --- a/common/shlibs
 +++ b/common/shlibs
-@@ -677,6 +677,16 @@ libxfce4kbd-private-3.so.0 libxfce4ui-4.12.1_2
+@@ -681,6 +681,17 @@ libxfce4kbd-private-3.so.0 libxfce4ui-4.12.1_2
  libxml++-2.6.so.2 libxml++-2.32.0_1
  libftgl.so.2 ftgl-2.1.2_1
  libGLEW.so.2.1 glew-2.1.0_1
@@ -15,11 +15,12 @@ index 9b669081fa..e03f935b4e 100644
 +libunity-protocol-private.so.0 unity7-libunity-7.1.4+16.10.20160516_1
 +libunity-extras.so.9 unity7-libunity-7.1.4+16.10.20160516_1
 +libunity.so.9 unity7-libunity-7.1.4+16.10.20160516_1
++libunity-misc.so.4 unity7-libunity-misc-4.0.5+14.04.20140115_1
 +libcolumbus.so.1 unity7-libcolumbus-1.1.0+15.10.20150806_1
  libsndfile.so.1 libsndfile-1.0.20_1
  libspeex.so.1 libspeex-1.1_1
  libspeexdsp.so.1 speexdsp-1.2rc2_1
-@@ -2804,9 +2814,12 @@ libuim.so.8 uim-1.8.6_1
+@@ -2808,9 +2819,12 @@ libuim.so.8 uim-1.8.6_1
  libuim-scm.so.0 uim-1.8.6_1
  libuim-custom.so.2 uim-1.8.6_1
  libgcroots.so.0 uim-1.8.6_1
