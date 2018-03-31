@@ -3,15 +3,15 @@ base_version=750.1
 extra_version=
 version=${base_version}${extra_version}
 revision=1
-wrksrc="unity7-dbg"
+wrksrc="unity7-${version}"
 
 homepage="https://github.com/alekseyt/unity7"
 license="GPL"
 short_desc="Chromatic launcher (derived from Unity 7)"
 maintainer=" <>"
 
-distfiles=https://github.com/alekseyt/unity7/archive/dbg.tar.gz
-checksum=c22437140c78087f0139ac7547afe7bc9128e46505568a8f47164655c90b1d26
+distfiles=https://github.com/alekseyt/unity7/archive/${version}.tar.gz
+checksum=ddbe3b06b6d4139bada756f11ea5b6872a4e548a8a512eb72ae4210bc9338a10
 
 depends="unity7-scope-home unity7-lens-applications unity7-lens-files"
 hostmakedepends="pkg-config cmake intltool"
@@ -28,4 +28,5 @@ configure_args="-DENABLE_UNIT_TESTS=0"
 
 post_install() {
 	cp "$FILESDIR"/void-bfb.png "$DESTDIR"/usr/share/unity/icons/launcher_bfb.png
+	cp "$FILESDIR"/chromatic "$DESTDIR"/usr/bin/chromatic
 }
