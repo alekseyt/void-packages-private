@@ -24,33 +24,6 @@ makedepends="boost-devel glu-devel dbus-devel fuse-devel libX11-devel libXext-de
  libwnck-devel librsvg-devel libnotify-devel"
 patch_args="-p1"
 
-do_build() {
-	mkdir -p build && cd build
-
-	# note from Unity-For-Arch:
-	# Compiz will segfault if the CMake built target is set to 'Release'
-	# Disable tests since they can't run on a headless build server
-	cmake .. \
-	        -DCMAKE_INSTALL_PREFIX=/usr \
-        	-DCOMPIZ_BUILD_WITH_RPATH=FALSE \
-	        `# -DCMAKE_BUILD_TYPE=RelWithDebInfo` \
-        	-DCMAKE_BUILD_TYPE=Release \
-	        -DCOMPIZ_PACKAGING_ENABLED=TRUE \
-        	-DUSE_GSETTINGS=ON \
-	        -DCOMPIZ_DISABLE_GS_SCHEMAS_INSTALL=OFF \
-        	-DCOMPIZ_BUILD_TESTING=OFF \
-	        -DCOMPIZ_DISABLE_PLUGIN_KDE=ON \
-	        -DUSE_KDE4=OFF \
-        	`# Necessary for new versions of Compiz` \
-	        `# https://bugs.launchpad.net/compiz/+bug/1070211` \
-        	-DPYTHON_INCLUDE_DIR=/usr/include/python2.7 \
-	        -DPYTHON_LIBRARY=/usr/lib/libpython2.7.so \
-        	-Dlibdir=/usr/lib \
-	        -Dlibcompizconfig_libdir=/usr/lib
-	make
-}
-
-do_install() {
-	cd build
-	make DESTDIR="$DESTDIR" install
-}
+build_style="cmake"
+configure_args="-DCOMPIZ_BUILD_WITH_RPATH=FALSE -DCMAKE_BUILD_TYPE=Release
+ -DCOMPIZ_PACKAGING_ENABLED=TRUE -DUSE_GSETTINGS=ON -DCOMPIZ_DISABLE_GS_SCHEMAS_INSTALL=OFF -DCOMPIZ_BUILD_TESTING=OFF -DCOMPIZ_DISABLE_PLUGIN_KDE=ON -DUSE_KDE4=OFF"
