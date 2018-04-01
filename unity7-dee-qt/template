@@ -1,0 +1,21 @@
+pkgname=unity7-dee-qt
+base_version=3.3
+extra_version=+14.04.20140317
+version=${base_version}${extra_version}
+revision=1
+wrksrc="dee-qt-${version}"
+
+homepage="https://launchpad.net/dee-qt"
+license="LGPL"
+short_desc="This project provides a set of Qt bindings for libdee."
+maintainer=" <>"
+
+distfiles="https://launchpad.net/ubuntu/+archive/primary/+files/dee-qt_${version}.orig.tar.gz"
+checksum=c372b6a5157a6614fae79bd4b75273f3ccdbde0f56e996211c000c5a3c74dfbb
+
+hostmakedepends="cmake pkg-config"
+makedepends="qt5-devel qt5-declarative-devel
+ unity7-dee-ubuntu"
+
+build_style="cmake"
+configure_args="-DWITHQT5=1"
