@@ -21,7 +21,7 @@ makedepends="gtk+3-devel gnome-desktop-devel libnotify-devel
  libX11-devel libXi-devel libXfixes-devel libXrender-devel glu-devel
  libICE-devel libSM-devel zeitgeist-devel libxslt-devel boost-devel
  bamf-devel libindicator-devel geis-devel
- unity7-glewmx-devel unity7-nux-devel unity7-compiz-ubuntu-devel
+ unity7-glewmx-devel unity7-nux unity7-compiz-devel
  unity7-libunity unity7-libunity-misc"
 
 build_style="cmake"
