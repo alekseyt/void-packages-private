@@ -17,6 +17,7 @@ hostmakedepends="automake autoconf libtool intltool pkg-config vala"
 makedepends="gettext-devel glib-devel libdbusmenu-glib-devel libzeitgeist-devel
  gnome-menus-devel db-devel xapian-core-devel icu-devel libgee08-devel
  unity7-dee unity7-libunity unity7-libcolumbus"
+
 build_style="gnu-configure"
 configure_args="--enable-headless-tests=no"
 

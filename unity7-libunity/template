@@ -17,8 +17,9 @@ hostmakedepends="autoconf automake libtool pkg-config"
 makedepends="intltool gettext-devel python-devel gobject-introspection
  vala libdbusmenu-glib-devel gtk+3-devel glib-devel
  unity7-dee"
+
 build_style=gnu-configure
-configure_args="--prefix=/usr --enable-integration-tests=no --enable-headless-tests=no --disable-static"
+configure_args="--enable-integration-tests=no --enable-headless-tests=no --disable-static"
 patch_args="-p1"
 
 pre_configure() {
