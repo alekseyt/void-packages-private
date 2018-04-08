@@ -20,19 +20,9 @@ makedepends="boost-devel xorgproto glib-devel libsigc++-devel glu-devel libpng-d
  unity7-glewmx-devel"
 
 build_style=gnu-configure
-configure_args="--prefix=/usr --with-x11 --disable-static --enable-tests=no --enable-gputests=no --enable-examples=no"
+configure_args="--with-x11 --disable-static --enable-tests=no --enable-gputests=no --enable-examples=no"
 patch_args="-p1"
 
 pre_configure() {
 	autoreconf -fi
-}
-
-unity7-nux-devel_package() {
-	short_desc+=" - devel files"
-	depends="${sourcepkg}>=${version}_${revision}"
-
-	pkg_install() {
-		vmove usr/include
-		vmove usr/lib/pkgconfig
-	}
 }
