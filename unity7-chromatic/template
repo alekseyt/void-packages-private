@@ -2,7 +2,7 @@ pkgname=unity7-chromatic
 base_version=750.1
 extra_version=
 version=${base_version}${extra_version}
-revision=1
+revision=2
 wrksrc="unity7-${version}"
 
 homepage="https://github.com/alekseyt/unity7"
@@ -21,10 +21,11 @@ makedepends="gtk+3-devel gnome-desktop-devel libnotify-devel
  libX11-devel libXi-devel libXfixes-devel libXrender-devel glu-devel
  libICE-devel libSM-devel zeitgeist-devel libxslt-devel boost-devel
  bamf-devel libindicator-devel geis-devel
- unity7-nux unity7-libunity unity7-libunity-misc unity7-compiz-ubuntu"
+ unity7-glewmx-devel unity7-nux-devel unity7-compiz-ubuntu-devel
+ unity7-libunity unity7-libunity-misc"
 
 build_style="cmake"
-configure_args="-DENABLE_UNIT_TESTS=0"
+configure_args="-DENABLE_UNIT_TESTS=OFF"
 
 post_install() {
 	cp "$FILESDIR"/void-bfb.png "$DESTDIR"/usr/share/unity/icons/launcher_bfb.png
