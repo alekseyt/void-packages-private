@@ -1,6 +1,6 @@
 pkgname=unity7-glewmx
 version=1.13.0
-revision=1
+revision=2
 wrksrc="glew-${version}"
 
 homepage="http://launchpad.net/ubuntu/+source/glewmx"
@@ -11,7 +11,6 @@ maintainer=" <>"
 distfiles="http://launchpad.net/ubuntu/+archive/primary/+files/glewmx_${version}.orig.tar.gz"
 checksum=aa25dc48ed84b0b64b8d41cdd42c8f40f149c37fa2ffa39cd97f42c78d128bc7
 
-conflicts="glew-devel"
 makedepends="libX11-devel libXi-devel glu-devel"
 
 do_build() {
@@ -23,5 +22,17 @@ do_build() {
 }
 
 do_install() {
-	GLEW_PREFIX="$DESTDIR/usr" GLEW_DEST="$DESTDIR/usr" make install.mx
+	# this produces wrong libdir in pkgconfig. oh well, nux compiles fine
+	GLEW_DEST="$DESTDIR/usr" make install.mx
+}
+
+unity7-glewmx-devel_package() {
+	short_desc+=" - devel files"
+	depends="${sourcepkg}>=${version}_${revision}"
+	conflicts="glew-devel"
+
+	pkg_install() {
+		vmove usr/include
+		vmove usr/lib/pkgconfig
+	}
 }
