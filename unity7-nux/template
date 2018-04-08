@@ -2,7 +2,7 @@ pkgname=unity7-nux
 base_version=4.0.8
 extra_version=+17.10.20170922
 version=${base_version}${extra_version}
-revision=1
+revision=2
 wrksrc="."
 
 homepage="https://launchpad.net/nux"
@@ -17,11 +17,22 @@ hostmakedepends="autoconf automake libtool pkg-config"
 makedepends="boost-devel xorgproto glib-devel libsigc++-devel glu-devel libpng-devel geis-devel
  cairo-devel gdk-pixbuf-devel pango-devel pciutils-devel ibus-devel
  libXinerama-devel libXcomposite-devel libXdamage-devel libXfixes-devel libXext-devel libXxf86vm-devel
- unity7-glewmx"
+ unity7-glewmx-devel"
+
 build_style=gnu-configure
 configure_args="--prefix=/usr --with-x11 --disable-static --enable-tests=no --enable-gputests=no --enable-examples=no"
 patch_args="-p1"
 
 pre_configure() {
 	autoreconf -fi
+}
+
+unity7-nux-devel_package() {
+	short_desc+=" - devel files"
+	depends="${sourcepkg}>=${version}_${revision}"
+
+	pkg_install() {
+		vmove usr/include
+		vmove usr/lib/pkgconfig
+	}
 }
