@@ -14,12 +14,12 @@ distfiles="https://launchpad.net/ubuntu/+archive/primary/+files/libunity_${versi
 checksum=a6f3a6f6ef5536398b207b31ffed0747b7a9916512a71656d3c1d7e129acf15f
 
 hostmakedepends="autoconf automake libtool pkg-config"
-makedepends="intltool gettext-devel python-devel gobject-introspection
- vala libdbusmenu-glib-devel gtk+3-devel glib-devel
+makedepends="intltool vala gobject-introspection
+ gettext-devel python-devel libdbusmenu-glib-devel gtk+3-devel glib-devel
  unity7-dee"
 
 build_style=gnu-configure
-configure_args="--enable-integration-tests=no --enable-headless-tests=no --disable-static"
+configure_args="--enable-introspection=yes --enable-integration-tests=no --enable-headless-tests=no --disable-static"
 patch_args="-p1"
 
 pre_configure() {

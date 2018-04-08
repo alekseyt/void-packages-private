@@ -14,7 +14,8 @@ distfiles="https://launchpad.net/ubuntu/+archive/primary/+files/dee_${version}.o
 checksum=e63f979a7a5012a7786786f8081a9279256ab28ece6e557c6ce5bf87535ae899
 
 hostmakedepends="autoconf automake libtool pkg-config python"
-makedepends="gnome-common gobject-introspection vala gtk-doc glib-devel icu-devel"
+makedepends="gnome-common vala gtk-doc gobject-introspection
+ glib-devel icu-devel"
 
 build_style="gnu-configure"
 configure_args="--enable-introspection=yes --enable-tests=no --disable-static"
