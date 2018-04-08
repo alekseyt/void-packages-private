@@ -1,9 +1,9 @@
 pkgname=unity7-dee-ubuntu
 base_version=1.2.7
-extra_version=+15.04.20150304
+extra_version=+17.10.20170616
 version=${base_version}${extra_version}
 revision=1
-wrksrc="dee-${version}"
+wrksrc="."
 
 homepage="https://launchpad.net/dee"
 license="LGPL"
@@ -11,23 +11,14 @@ short_desc="Model to synchronize multiple instances over DBus"
 maintainer=" <>"
 
 distfiles="https://launchpad.net/ubuntu/+archive/primary/+files/dee_${version}.orig.tar.gz"
-checksum=cc7b02c7fa27e590a110ab29e373a39af7f59eafa925d7922739b721a7f2d128
+checksum=e63f979a7a5012a7786786f8081a9279256ab28ece6e557c6ce5bf87535ae899
 
 hostmakedepends="autoconf automake libtool pkg-config python python3"
 makedepends="gnome-common gobject-introspection vala gtk-doc glib-devel icu-devel"
-configure_flags="--enable-introspection=yes --enable-tests=no --disable-static --prefix=/usr"
-patch_args="-p1"
+
+build_style="gnu-configure"
+configure_args="--enable-introspection=yes --enable-tests=no --disable-static"
 
 pre_configure() {
 	autoreconf -fi
-}
-
-do_build() {
-	(mkdir -p build_python3 && cd build_python3 && PYTHON=python3 ../configure ${configure_flags} && make)
-	(mkdir -p build_python2 && cd build_python2 && PYTHON=python2 ../configure ${configure_flags} && make)
-}
-
-do_install() {
-	(cd build_python3 && make DESTDIR="$DESTDIR" install)
-	(cd build_python2 && make DESTDIR="$DESTDIR" install)
 }
