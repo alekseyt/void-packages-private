@@ -15,8 +15,8 @@ checksum=b5703a9a5cfdd47d9645ea20df1dcd575715e11ae8ecef3a72047d6225a233af
 
 hostmakedepends="automake autoconf libtool intltool pkg-config vala"
 makedepends="gettext-devel glib-devel libdbusmenu-glib-devel libzeitgeist-devel
- gnome-menus-devel db-devel xapian-core-devel
- libgee08-devel unity7-dee-ubuntu unity7-libunity unity7-libcolumbus"
+ gnome-menus-devel db-devel xapian-core-devel icu-devel libgee08-devel
+ unity7-dee unity7-libunity unity7-libcolumbus"
 build_style="gnu-configure"
 configure_args="--enable-headless-tests=no"
 

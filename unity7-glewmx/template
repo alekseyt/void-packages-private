@@ -29,6 +29,8 @@ do_install() {
 unity7-glewmx-devel_package() {
 	short_desc+=" - devel files"
 	depends="${sourcepkg}>=${version}_${revision}"
+	# it's convenient to have -devel sub so srcpkg
+	# doesn't conflict with glew-devel but only sub does
 	conflicts="glew-devel"
 
 	pkg_install() {

@@ -15,7 +15,7 @@ checksum=c372b6a5157a6614fae79bd4b75273f3ccdbde0f56e996211c000c5a3c74dfbb
 
 hostmakedepends="cmake pkg-config"
 makedepends="qt5-devel qt5-declarative-devel
- unity7-dee-ubuntu"
+ unity7-dee"
 
 build_style="cmake"
 configure_args="-DWITHQT5=1"
