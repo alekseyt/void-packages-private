@@ -15,7 +15,9 @@ checksum=9bea8fa84d94acb53824af2f84b0d60eadead18c1cde3c61a37fd74313763f6e
 
 hostmakedepends="automake autoconf libtool intltool pkg-config vala"
 makedepends="gettext-devel glib-devel json-glib-devel libsoup-gnome-devel
- libgee08-devel libdbusmenu-glib-devel unity7-dee-ubuntu unity7-libunity"
+ libgee08-devel libdbusmenu-glib-devel
+ unity7-dee unity7-libunity"
+
 build_style="gnu-configure"
 configure_args="--enable-headless-tests=no"
 
