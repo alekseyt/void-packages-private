@@ -14,8 +14,9 @@ distfiles="https://launchpad.net/ubuntu/+archive/primary/+files/unity-lens-files
 checksum=f1642cdf1b6383dd58771c9733b839a6e86d3a79368a07703b91740cf18fac92
 
 hostmakedepends="automake autoconf libtool intltool pkg-config vala"
-makedepends="gettext-devel glib-devel zeitgeist-devel libdbusmenu-glib-devel
- libgee08-devel unity7-libunity"
+makedepends="gettext-devel glib-devel zeitgeist-devel
+ libdbusmenu-glib-devel icu-devel libgee08-devel
+ unity7-libunity"
 
 build_style="gnu-configure"
 configure_args=""
