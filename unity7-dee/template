@@ -1,4 +1,4 @@
-pkgname=unity7-dee-ubuntu
+pkgname=unity7-dee
 base_version=1.2.7
 extra_version=+17.10.20170616
 version=${base_version}${extra_version}
@@ -13,7 +13,7 @@ maintainer=" <>"
 distfiles="https://launchpad.net/ubuntu/+archive/primary/+files/dee_${version}.orig.tar.gz"
 checksum=e63f979a7a5012a7786786f8081a9279256ab28ece6e557c6ce5bf87535ae899
 
-hostmakedepends="autoconf automake libtool pkg-config python python3"
+hostmakedepends="autoconf automake libtool pkg-config python"
 makedepends="gnome-common gobject-introspection vala gtk-doc glib-devel icu-devel"
 
 build_style="gnu-configure"
