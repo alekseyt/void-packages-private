@@ -1,4 +1,4 @@
-pkgname=unity7-compiz-ubuntu
+pkgname=unity7-compiz
 base_version=0.9.13.1
 extra_version=+18.04.20180302
 version=${base_version}${extra_version}
@@ -30,9 +30,12 @@ configure_args="-DCOMPIZ_BUILD_WITH_RPATH=OFF -DCMAKE_BUILD_TYPE=Release
 
 # plugins are disabled with patch
 
-unity7-compiz-ubuntu-devel_package() {
+unity7-compiz-devel_package() {
 	short_desc+=" - devel files"
 	depends="${sourcepkg}>=${version}_${revision}"
+	# it doesn't have to depend on srcpkg
+	# because chromatic doesn't link with it
+
 	pkg_install() {
 		vmove usr/include
 		vmove usr/lib/pkgconfig
