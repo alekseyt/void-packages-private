@@ -1,5 +1,5 @@
 diff --git a/common/shlibs b/common/shlibs
-index 3c0764aa39..9e33ca879c 100644
+index 3c0764aa39..a77c9ce33e 100644
 --- a/common/shlibs
 +++ b/common/shlibs
 @@ -685,6 +685,17 @@ libxfce4kbd-private-3.so.0 libxfce4ui-4.12.1_2
@@ -7,14 +7,14 @@ index 3c0764aa39..9e33ca879c 100644
  libftgl.so.2 ftgl-2.1.2_1
  libGLEW.so.2.1 glew-2.1.0_1
 +libGLEWmx.so.1.13 unity7-glewmx-1.13.0_2
-+libnux-graphics-4.0.so.0 unity7-nux-4.0.8+17.04.20170213_2
-+libnux-core-4.0.so.0 unity7-nux-4.0.8+17.04.20170213_2
-+libnux-4.0.so.0 unity7-nux-4.0.8+17.04.20170213_2
++libnux-graphics-4.0.so.0 unity7-nux-4.0.8+17.10.20170922_2
++libnux-core-4.0.so.0 unity7-nux-4.0.8+17.10.20170922_2
++libnux-4.0.so.0 unity7-nux-4.0.8+17.10.20170922_2
 +libdee-1.0.so.4 unity7-dee-1.2.7+17.10.20170616_1
 +libcolumbus.so.1 unity7-libcolumbus-1.1.0+15.10.20150806_1
-+libunity-protocol-private.so.0 unity7-libunity-7.1.4+16.10.20160516_1
-+libunity-extras.so.9 unity7-libunity-7.1.4+16.10.20160516_1
-+libunity.so.9 unity7-libunity-7.1.4+16.10.20160516_1
++libunity-protocol-private.so.0 unity7-libunity-7.1.4+18.04.20180209.1_1
++libunity-extras.so.9 unity7-libunity-7.1.4+18.04.20180209.1_1
++libunity.so.9 unity7-libunity-7.1.4+18.04.20180209.1_1
 +# libunity-misc is not really required for build
 +libunity-misc.so.4 unity7-libunity-misc-4.0.5+14.04.20140115_1
  libsndfile.so.1 libsndfile-1.0.20_1

@@ -1,6 +1,6 @@
 pkgname=unity7-libunity
 base_version=7.1.4
-extra_version=+16.10.20160516
+extra_version=+18.04.20180209.1
 version=${base_version}${extra_version}
 revision=1
 wrksrc="."
@@ -11,7 +11,7 @@ short_desc="A library for instrumenting- and integrating with all aspects of the
 maintainer=" <>"
 
 distfiles="https://launchpad.net/ubuntu/+archive/primary/+files/libunity_${version}.orig.tar.gz"
-checksum=27f23041a76fe5dcdfe70f40ad6a4ad1dbf16056506e088117d7405993fb83f6
+checksum=a6f3a6f6ef5536398b207b31ffed0747b7a9916512a71656d3c1d7e129acf15f
 
 hostmakedepends="autoconf automake libtool pkg-config"
 makedepends="intltool gettext-devel python-devel gobject-introspection
