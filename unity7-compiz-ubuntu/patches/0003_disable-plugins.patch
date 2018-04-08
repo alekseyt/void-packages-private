@@ -1,0 +1,11 @@
+--- a/plugins/CMakeLists.txt	2017-03-21 18:59:34.000000000 +0200
++++ b/plugins/CMakeLists.txt	2018-04-08 13:31:03.564466897 +0300
+@@ -30,4 +30,7 @@
+ 
+ endif (BUILD_GLES)
+ 
+-compiz_add_plugins_in_folder (${CMAKE_CURRENT_SOURCE_DIR})
++#compiz_add_plugins_in_folder (${CMAKE_CURRENT_SOURCE_DIR})
++add_subdirectory(composite)  # for libunity
++add_subdirectory(opengl)  # for libunity
++add_subdirectory(scale)  # for unity
