@@ -1,8 +1,8 @@
 pkgname=unity7-chromatic
-base_version=750.1
+base_version=750.2
 extra_version=
 version=${base_version}${extra_version}
-revision=2
+revision=1
 wrksrc="unity7-${version}"
 
 homepage="https://github.com/alekseyt/unity7"
@@ -11,7 +11,7 @@ short_desc="Chromatic launcher (derived from Unity 7)"
 maintainer=" <>"
 
 distfiles=https://github.com/alekseyt/unity7/archive/${version}.tar.gz
-checksum=28c77b36d124eab23591e51d7a82622c9d990b9e2715e3823504456e34af61e5
+checksum=504427ee47e42f9f7d139d464fcf82a9736e7d5e3dbcb86d9d3d4eba3552c845
 
 depends="unity7-asset-pool unity7-scope-home unity7-lens-applications unity7-lens-files"
 hostmakedepends="pkg-config cmake intltool"
@@ -21,8 +21,7 @@ makedepends="gtk+3-devel gnome-desktop-devel libnotify-devel
  libX11-devel libXi-devel libXfixes-devel libXrender-devel glu-devel
  libICE-devel libSM-devel zeitgeist-devel libxslt-devel boost-devel
  bamf-devel libindicator-devel geis-devel
- unity7-glewmx-devel unity7-nux unity7-compiz-devel
- unity7-libunity unity7-libunity-misc"
+ unity7-glewmx-devel unity7-nux unity7-compiz-devel unity7-libunity"
 
 build_style="cmake"
 configure_args="-DENABLE_UNIT_TESTS=OFF"
@@ -31,4 +30,6 @@ post_install() {
 	cp "$FILESDIR"/void-bfb.png "$DESTDIR"/usr/share/unity/icons/launcher_bfb.png
 	cp "$FILESDIR"/chromatic "$DESTDIR"/usr/bin/chromatic
 	cp -r "$FILESDIR"/locale/* "$DESTDIR"/usr/share/locale/
+	mkdir -p "$DESTDIR/usr/share/applications/"
+	cp "$FILESDIR/chromatic.desktop" "$DESTDIR/usr/share/applications/"
 }
