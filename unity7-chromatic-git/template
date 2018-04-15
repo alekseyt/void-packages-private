@@ -1,0 +1,34 @@
+pkgname=unity7-chromatic-git
+base_version=750.git
+extra_version=
+version=${base_version}${extra_version}
+revision=1
+wrksrc="unity7"
+
+homepage="https://github.com/alekseyt/unity7"
+license="GPL"
+short_desc="Chromatic launcher (derived from Unity 7)"
+maintainer=" <>"
+
+depends="unity7-asset-pool unity7-scope-home unity7-lens-applications unity7-lens-files"
+hostmakedepends="pkg-config cmake intltool git"
+makedepends="gtk+3-devel libnotify-devel appstream-glib-devel json-glib-devel
+ libdbusmenu-glib-devel startup-notification-devel libsigc++-devel glibmm-devel
+ libX11-devel libXi-devel libXfixes-devel libXrender-devel glu-devel
+ libICE-devel libSM-devel zeitgeist-devel libxslt-devel boost-devel
+ bamf-devel libindicator-devel geis-devel
+ unity7-glewmx-devel unity7-nux unity7-compiz-devel unity7-libunity"
+
+build_style="cmake"
+configure_args="-DENABLE_UNIT_TESTS=OFF -Duse_pch=OFF"
+
+do_fetch() {
+	git clone --depth 1 -b void ${homepage}
+}
+
+post_install() {
+	cp "$FILESDIR"/void-bfb.png "$DESTDIR"/usr/share/unity/icons/launcher_bfb.png
+	cp "$FILESDIR"/chromatic "$DESTDIR"/usr/bin/chromatic
+	mkdir -p "$DESTDIR/usr/share/applications/"
+	cp "$FILESDIR/chromatic.desktop" "$DESTDIR/usr/share/applications/"
+}
