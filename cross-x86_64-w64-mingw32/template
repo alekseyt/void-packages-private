@@ -9,7 +9,7 @@ _mingw_version=5.0.4
 pkgname=cross-x86_64-w64-mingw32
 version=${_mingw_version}
 revision=1
-short_desc="GNU Cross toolchain for Windows (x86_64)"
+short_desc="Cross toolchain for Win64"
 maintainer="Aleksey Tulinov <aleksey.tulinov@gmail.com>"
 homepage="https://sourceforge.net/projects/mingw-w64/"
 license="LGPL-3, GPL-3, BSD, MIT, ZPL"
@@ -51,17 +51,6 @@ _binutils_build() {
 
 	mkdir -p ${_builddir} && cd ${_builddir}
 
-	# so when first cross compiler is build, it might interfere with the build of
-	# another cross compiler. therefore it's better to set binutils and compilers
-	# explicitely even if they are "default"
-	CC="cc" \
-	CPP="cc -E" \
-	CXX="c++" \
-	AR="ar" \
-	RANLIB="ranlib" \
-	AS="as" \
-	STRIP="strip" \
-	OBJDUMP="objdump" \
 	../binutils-${_binutils_version}/configure \
 		--prefix="/usr" \
 		--with-sysroot=${_sysroot} \
@@ -85,14 +74,6 @@ _mingw_headers() {
 
 	mkdir -p ${_builddir} && cd ${_builddir}
 
-	CC="cc" \
-	CPP="cc -E" \
-	CXX="c++" \
-	AR="ar" \
-	RANLIB="ranlib" \
-	AS="as" \
-	STRIP="strip" \
-	OBJDUMP="objdump" \
 	../mingw-w64-v${_mingw_version}/mingw-w64-headers/configure \
 		--prefix=${_sysroot} \
 		--host=${_target} \
@@ -101,9 +82,9 @@ _mingw_headers() {
 
 	make && make install
 
-	# manually create required symlinks	
-	cd ${_sysroot} && ln -sfT "." "mingw"
-	cd ${_sysroot} && ln -sf "lib" "lib64"
+	# manually create required symlinks
+	(cd ${_sysroot} && ln -sfT "." "mingw")
+	(cd ${_sysroot} && ln -sf "lib" "lib64")
 }
 
 _gcc_bootstrap() {
@@ -120,14 +101,6 @@ _gcc_bootstrap() {
 
 	mkdir -p ${_builddir} && cd ${_builddir}
 
-	CC="cc" \
-	CPP="cc -E" \
-	CXX="c++" \
-	AR="ar" \
-	RANLIB="ranlib" \
-	AS="as" \
-	STRIP="strip" \
-	OBJDUMP="objdump" \
 	../gcc-${_gcc_version}/configure \
 		--prefix="/usr" \
 		--with-sysroot=${_sysroot} \
@@ -153,7 +126,7 @@ _mingw_crt_build() {
 	msg_normal "Building MinGW CRT: ${_target}\n"
 
 	if [ ${_target} == "i686-w64-mingw32" ]; then
-        	_crt_configure_args="--disable-lib64 --enable-lib32"
+		_crt_configure_args="--disable-lib64 --enable-lib32"
 	elif [ ${_target} == "x86_64-w64-mingw32" ]; then
 		_crt_configure_args="--disable-lib32 --enable-lib64"
 	fi
@@ -213,12 +186,12 @@ _gcc_build() {
 
 	# should be already configured previously
 	# no need for install since this is the last step
-	make  
+	make
 }
 
 _build_cross() {
 	_target=$1
-	
+
 	_binutils_build ${_target}
 	_mingw_headers ${_target}
 	_gcc_bootstrap ${_target}
@@ -244,17 +217,16 @@ _install_cross() {
 
 do_install() {
 	_install_cross "x86_64-w64-mingw32"
-	# i686 version will be installed for another package (below)
+	# i686 version will be installed in subpackage (below)
 }
 
 _clean_cross() {
 	_target=$1
-	_sysroot="/usr/${_target}"
 
-	rm -rf ${_sysroot}
-        rm -f  /usr/bin/${_target}*
-        rm -rf /usr/lib/gcc/${_target}
-        rm -rf /usr/libexec/gcc/${_target}
+	rm -rf /usr/${_target}
+	rm -f  /usr/bin/${_target}*
+	rm -rf /usr/lib/gcc/${_target}
+	rm -rf /usr/libexec/gcc/${_target}
 }
 
 do_clean() {
@@ -263,12 +235,12 @@ do_clean() {
 }
 
 cross-i686-w64-mingw32_package() {
-        short_desc="GNU Cross toolchain for Windows (i686)"
+	short_desc="Cross toolchain for Win32"
 	nostrip=yes
 	nopie=yes
 	nodebug=yes
 
-        pkg_install() {
+	pkg_install() {
 		DESTDIR="$PKGDESTDIR" _install_cross "i686-w64-mingw32"
-        }
+	}
 }
