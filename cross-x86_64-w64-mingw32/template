@@ -6,11 +6,7 @@ _mpc_version=1.1.0
 _isl_version=0.16.1
 _mingw_version=5.0.4
 
-_triplet=x86_64-w64-mingw32
-_sysroot="/usr/${_triplet}"  # FIXME: should depend on ${_target}
-_targets="x86_64-w64-mingw32 i686-w64-mingw32"
-
-pkgname=cross-${_triplet}
+pkgname=cross-x86_64-w64-mingw32
 version=${_mingw_version}
 revision=1
 short_desc="GNU Cross toolchain for Windows (x86_64)"
@@ -19,8 +15,8 @@ homepage="https://sourceforge.net/projects/mingw-w64/"
 license="LGPL-3, GPL-3, BSD, MIT, ZPL"
 
 distfiles="
- ${GNU_SITE}/binutils/binutils-${_binutils_version}.tar.bz2
- ${GNU_SITE}/gcc/gcc-${_gcc_version}/gcc-${_gcc_version}.tar.xz
+ https://ftp.gnu.org/gnu/binutils/binutils-${_binutils_version}.tar.bz2
+ https://ftp.gnu.org/gnu/gcc/gcc-${_gcc_version}/gcc-${_gcc_version}.tar.xz
  https://gmplib.org/download/gmp/gmp-${_gmp_version}.tar.xz
  http://www.mpfr.org/mpfr-${_mpfr_version}/mpfr-${_mpfr_version}.tar.xz
  https://ftp.gnu.org/gnu/mpc/mpc-${_mpc_version}.tar.gz
@@ -47,11 +43,25 @@ nodebug=yes
 # http://mingw-w64.org/doku.php/configure
 
 _binutils_build() {
-	msg_normal "Building binutils\n"
-
-	_target=${_triplet}
+	_target=$1
+	_sysroot="/usr/${_target}"
 	_builddir=${wrksrc}/"build-binutils-${_target}"
+
+	msg_normal "Building binutils: ${_target}\n"
+
 	mkdir -p ${_builddir} && cd ${_builddir}
+
+	# so when first cross compiler is build, it might interfere with the build of
+	# another cross compiler. therefore it's better to set binutils and compilers
+	# explicitely even if they are "default"
+	CC="cc" \
+	CPP="cc -E" \
+	CXX="c++" \
+	AR="ar" \
+	RANLIB="ranlib" \
+	AS="as" \
+	STRIP="strip" \
+	OBJDUMP="objdump" \
 	../binutils-${_binutils_version}/configure \
 		--prefix="/usr" \
 		--with-sysroot=${_sysroot} \
@@ -62,31 +72,46 @@ _binutils_build() {
 		--disable-werror \
 		--enable-lto \
 		--with-system-zlib
+
 	make && make install
 }
 
 _mingw_headers() {
-	msg_normal "Building MinGW headers\n"
-
-	_target=${_triplet}
+	_target=$1
+	_sysroot="/usr/${_target}"
 	_builddir=${wrksrc}/"build-mingw-headers-${_target}"
+
+	msg_normal "Building MinGW headers: ${_target}\n"
+
 	mkdir -p ${_builddir} && cd ${_builddir}
+
+	CC="cc" \
+	CPP="cc -E" \
+	CXX="c++" \
+	AR="ar" \
+	RANLIB="ranlib" \
+	AS="as" \
+	STRIP="strip" \
+	OBJDUMP="objdump" \
 	../mingw-w64-v${_mingw_version}/mingw-w64-headers/configure \
 		--prefix=${_sysroot} \
 		--host=${_target} \
 		--enable-secure-api \
 		--enable-sdk=all
+
 	make && make install
-	
+
+	# manually create required symlinks	
 	cd ${_sysroot} && ln -sfT "." "mingw"
 	cd ${_sysroot} && ln -sf "lib" "lib64"
 }
 
 _gcc_bootstrap() {
-	msg_normal "Building GCC bootsrap\n"
-
-	_target=${_triplet}
+	_target=$1
+	_sysroot="/usr/${_target}"
 	_builddir=${wrksrc}/"build-gcc-${_target}"
+
+	msg_normal "Building GCC bootsrap: ${_target}\n"
 
 	ln -sf ${wrksrc}/"gmp-${_gmp_version}" ${wrksrc}/"gcc-${_gcc_version}/gmp"
 	ln -sf ${wrksrc}/"mpc-${_mpc_version}" ${wrksrc}/"gcc-${_gcc_version}/mpc"
@@ -94,12 +119,22 @@ _gcc_bootstrap() {
 	ln -sf ${wrksrc}/"isl-${_isl_version}" ${wrksrc}/"gcc-${_gcc_version}/isl"
 
 	mkdir -p ${_builddir} && cd ${_builddir}
+
+	CC="cc" \
+	CPP="cc -E" \
+	CXX="c++" \
+	AR="ar" \
+	RANLIB="ranlib" \
+	AS="as" \
+	STRIP="strip" \
+	OBJDUMP="objdump" \
 	../gcc-${_gcc_version}/configure \
 		--prefix="/usr" \
 		--with-sysroot=${_sysroot} \
 		--target=${_target} \
 		--disable-nls \
 		--disable-multilib \
+		--disable-gcov \
 		--enable-lto \
 		--enable-shared \
 		--enable-static \
@@ -111,10 +146,11 @@ _gcc_bootstrap() {
 }
 
 _mingw_crt_build() {
-	msg_normal "Building MinGW CRT\n"
-	
-	_target=${_triplet}
+	_target=$1
+	_sysroot="/usr/${_target}"
 	_builddir=${wrksrc}/"build-mingw-crt-${_target}"
+
+	msg_normal "Building MinGW CRT: ${_target}\n"
 
 	if [ ${_target} == "i686-w64-mingw32" ]; then
         	_crt_configure_args="--disable-lib64 --enable-lib32"
@@ -123,6 +159,7 @@ _mingw_crt_build() {
 	fi
 
 	mkdir -p ${_builddir} && cd ${_builddir}
+
 	CC="${_target}-gcc" \
 	CPP="${_target}-gcc -E"
 	AR="${_target}-ar" \
@@ -140,12 +177,14 @@ _mingw_crt_build() {
 }
 
 _mingw_winpthreads_build() {
-	msg_normal "Building MinGW winpthreads\n"
-	
-	_target=${_triplet}
+	_target=$1
+	_sysroot="/usr/${_target}"
 	_builddir=${wrksrc}/"build-mingw-winpthreads-${_target}"
 
+	msg_normal "Building MinGW winpthreads: ${_target}\n"
+
 	mkdir -p ${_builddir} && cd ${_builddir}
+
 	CC="${_target}-gcc" \
 	CPP="${_target}-gcc -E"
 	AR="${_target}-ar" \
@@ -164,34 +203,72 @@ _mingw_winpthreads_build() {
 }
 
 _gcc_build() {
-	msg_normal "Building GCC\n"
-
-	_target=${_triplet}
+	_target=$1
+	_sysroot="/usr/${_target}"
 	_builddir=${wrksrc}/"build-gcc-${_target}"
 
-	mkdir -p ${_builddir} && cd ${_builddir}
-	make && make install  # should be already configured in previous steps
+	msg_normal "Building GCC: ${_target}\n"
+
+	cd ${_builddir}
+
+	# should be already configured previously
+	# no need for install since this is the last step
+	make  
+}
+
+_build_cross() {
+	_target=$1
+	
+	_binutils_build ${_target}
+	_mingw_headers ${_target}
+	_gcc_bootstrap ${_target}
+	_mingw_crt_build ${_target}
+	_mingw_winpthreads_build ${_target}
+	_gcc_build ${_target}
 }
 
 do_build() {
-	for _target in ${_targets}; do
-		msg_normal "Target: ${_target}\n"
-	done
-
-	_binutils_build
-	_mingw_headers
-	_gcc_bootstrap
-	_mingw_crt_build
-	_mingw_winpthreads_build
-	_gcc_build
+	(_build_cross "x86_64-w64-mingw32")
+	(_build_cross "i686-w64-mingw32")
 }
 
-do_install() {
-	_target=${_triplet}
+_install_cross() {
+	_target=$1
 
 	(cd ${wrksrc}/"build-binutils-${_target}" && DESTDIR="$DESTDIR" make install)
 	(cd ${wrksrc}/"build-gcc-${_target}" && DESTDIR="$DESTDIR" make install)
 	(cd ${wrksrc}/"build-mingw-headers-${_target}" && DESTDIR="$DESTDIR" make install)
 	(cd ${wrksrc}/"build-mingw-crt-${_target}" && DESTDIR="$DESTDIR" make install)
 	(cd ${wrksrc}/"build-mingw-winpthreads-${_target}" && DESTDIR="$DESTDIR" make install)
+}
+
+do_install() {
+	_install_cross "x86_64-w64-mingw32"
+	# i686 version will be installed for another package (below)
+}
+
+_clean_cross() {
+	_target=$1
+	_sysroot="/usr/${_target}"
+
+	rm -rf ${_sysroot}
+        rm -f  /usr/bin/${_target}*
+        rm -rf /usr/lib/gcc/${_target}
+        rm -rf /usr/libexec/gcc/${_target}
+}
+
+do_clean() {
+	_clean_cross "x86_64-w64-mingw32"
+	_clean_cross "i686-w64-mingw32"
+}
+
+cross-i686-w64-mingw32_package() {
+        short_desc="GNU Cross toolchain for Windows (i686)"
+	nostrip=yes
+	nopie=yes
+	nodebug=yes
+
+        pkg_install() {
+		DESTDIR="$PKGDESTDIR" _install_cross "i686-w64-mingw32"
+        }
 }
