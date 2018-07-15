@@ -1,0 +1,197 @@
+_binutils_version=2.29.1
+_gcc_version=7.3.0
+_gmp_version=6.1.2
+_mpfr_version=4.0.0
+_mpc_version=1.1.0
+_isl_version=0.16.1
+_mingw_version=5.0.4
+
+_triplet=x86_64-w64-mingw32
+_sysroot="/usr/${_triplet}"  # FIXME: should depend on ${_target}
+_targets="x86_64-w64-mingw32 i686-w64-mingw32"
+
+pkgname=cross-${_triplet}
+version=${_mingw_version}
+revision=1
+short_desc="GNU Cross toolchain for Windows (x86_64)"
+maintainer="Aleksey Tulinov <aleksey.tulinov@gmail.com>"
+homepage="https://sourceforge.net/projects/mingw-w64/"
+license="LGPL-3, GPL-3, BSD, MIT, ZPL"
+
+distfiles="
+ ${GNU_SITE}/binutils/binutils-${_binutils_version}.tar.bz2
+ ${GNU_SITE}/gcc/gcc-${_gcc_version}/gcc-${_gcc_version}.tar.xz
+ https://gmplib.org/download/gmp/gmp-${_gmp_version}.tar.xz
+ http://www.mpfr.org/mpfr-${_mpfr_version}/mpfr-${_mpfr_version}.tar.xz
+ https://ftp.gnu.org/gnu/mpc/mpc-${_mpc_version}.tar.gz
+ http://isl.gforge.inria.fr/isl-${_isl_version}.tar.bz2
+ https://sourceforge.net/projects/mingw-w64/files/mingw-w64/mingw-w64-release/mingw-w64-v${_mingw_version}.tar.bz2"
+checksum="
+ 1509dff41369fb70aed23682351b663b56db894034773e6dbf7d5d6071fc55cc
+ 832ca6ae04636adbb430e865a1451adf6979ab44ca1c8374f61fba65645ce15c
+ 87b565e89a9a684fe4ebeeddb8399dce2599f9c9049854ca8c0dfbdea0e21912
+ fbe2cd1418b321f5c899ce4f0f0f4e73f5ecc7d02145b0e1fd096f5c3afb8a1d
+ 6985c538143c1208dcb1ac42cedad6ff52e267b47e5f970183a3e75125b43c2e
+ 412538bb65c799ac98e17e8cfcdacbb257a57362acfaaff254b0fcae970126d2
+ 5527e1f6496841e2bb72f97a184fc79affdcd37972eaa9ebf7a5fd05c31ff803"
+
+create_wrksrc=yes
+hostmakedepends="perl flex"
+makedepends="zlib-devel"
+nostrip=yes
+nopie=yes
+nodebug=yes
+
+# https://sourceforge.net/p/mingw-w64/wiki2/Cross%20Win32%20and%20Win64%20compiler/
+# https://gcc.gnu.org/install/configure.html
+# http://mingw-w64.org/doku.php/configure
+
+_binutils_build() {
+	msg_normal "Building binutils\n"
+
+	_target=${_triplet}
+	_builddir=${wrksrc}/"build-binutils-${_target}"
+	mkdir -p ${_builddir} && cd ${_builddir}
+	../binutils-${_binutils_version}/configure \
+		--prefix="/usr" \
+		--with-sysroot=${_sysroot} \
+		--target=${_target} \
+		--disable-multilib \
+		--disable-shared \
+		--disable-nls \
+		--disable-werror \
+		--enable-lto \
+		--with-system-zlib
+	make && make install
+}
+
+_mingw_headers() {
+	msg_normal "Building MinGW headers\n"
+
+	_target=${_triplet}
+	_builddir=${wrksrc}/"build-mingw-headers-${_target}"
+	mkdir -p ${_builddir} && cd ${_builddir}
+	../mingw-w64-v${_mingw_version}/mingw-w64-headers/configure \
+		--prefix=${_sysroot} \
+		--host=${_target} \
+		--enable-secure-api \
+		--enable-sdk=all
+	make && make install
+	
+	cd ${_sysroot} && ln -sfT "." "mingw"
+	cd ${_sysroot} && ln -sf "lib" "lib64"
+}
+
+_gcc_bootstrap() {
+	msg_normal "Building GCC bootsrap\n"
+
+	_target=${_triplet}
+	_builddir=${wrksrc}/"build-gcc-${_target}"
+
+	ln -sf ${wrksrc}/"gmp-${_gmp_version}" ${wrksrc}/"gcc-${_gcc_version}/gmp"
+	ln -sf ${wrksrc}/"mpc-${_mpc_version}" ${wrksrc}/"gcc-${_gcc_version}/mpc"
+	ln -sf ${wrksrc}/"mpfr-${_mpfr_version}" ${wrksrc}/"gcc-${_gcc_version}/mpfr"
+	ln -sf ${wrksrc}/"isl-${_isl_version}" ${wrksrc}/"gcc-${_gcc_version}/isl"
+
+	mkdir -p ${_builddir} && cd ${_builddir}
+	../gcc-${_gcc_version}/configure \
+		--prefix="/usr" \
+		--with-sysroot=${_sysroot} \
+		--target=${_target} \
+		--disable-nls \
+		--disable-multilib \
+		--enable-lto \
+		--enable-shared \
+		--enable-static \
+		--enable-threads=posix \
+		--with-system-zlib \
+		--enable-languages=c,c++,lto
+
+	make all-gcc && make install-gcc
+}
+
+_mingw_crt_build() {
+	msg_normal "Building MinGW CRT\n"
+	
+	_target=${_triplet}
+	_builddir=${wrksrc}/"build-mingw-crt-${_target}"
+
+	if [ ${_target} == "i686-w64-mingw32" ]; then
+        	_crt_configure_args="--disable-lib64 --enable-lib32"
+	elif [ ${_target} == "x86_64-w64-mingw32" ]; then
+		_crt_configure_args="--disable-lib32 --enable-lib64"
+	fi
+
+	mkdir -p ${_builddir} && cd ${_builddir}
+	CC="${_target}-gcc" \
+	CPP="${_target}-gcc -E"
+	AR="${_target}-ar" \
+	RANLIB="${_target}-ranlib" \
+	AS="${_target}-as" \
+	STRIP="${_target}-strip" \
+	OBJDUMP="${_target}-objdump" \
+	WINDRES="${_target}-windres" \
+	../mingw-w64-v${_mingw_version}/mingw-w64-crt/configure \
+		--prefix=${_sysroot} \
+		--host=${_target} \
+		${_crt_configure_args}
+
+	make && make install
+}
+
+_mingw_winpthreads_build() {
+	msg_normal "Building MinGW winpthreads\n"
+	
+	_target=${_triplet}
+	_builddir=${wrksrc}/"build-mingw-winpthreads-${_target}"
+
+	mkdir -p ${_builddir} && cd ${_builddir}
+	CC="${_target}-gcc" \
+	CPP="${_target}-gcc -E"
+	AR="${_target}-ar" \
+	RANLIB="${_target}-ranlib" \
+	AS="${_target}-as" \
+	STRIP="${_target}-strip" \
+	OBJDUMP="${_target}-objdump" \
+	WINDRES="${_target}-windres" \
+	../mingw-w64-v${_mingw_version}/mingw-w64-libraries/winpthreads/configure \
+		--prefix=${_sysroot} \
+		--host=${_target} \
+		--enable-static \
+		--enable-shared
+
+	make && make install
+}
+
+_gcc_build() {
+	msg_normal "Building GCC\n"
+
+	_target=${_triplet}
+	_builddir=${wrksrc}/"build-gcc-${_target}"
+
+	mkdir -p ${_builddir} && cd ${_builddir}
+	make && make install  # should be already configured in previous steps
+}
+
+do_build() {
+	for _target in ${_targets}; do
+		msg_normal "Target: ${_target}\n"
+	done
+
+	_binutils_build
+	_mingw_headers
+	_gcc_bootstrap
+	_mingw_crt_build
+	_mingw_winpthreads_build
+	_gcc_build
+}
+
+do_install() {
+	_target=${_triplet}
+
+	(cd ${wrksrc}/"build-binutils-${_target}" && DESTDIR="$DESTDIR" make install)
+	(cd ${wrksrc}/"build-gcc-${_target}" && DESTDIR="$DESTDIR" make install)
+	(cd ${wrksrc}/"build-mingw-headers-${_target}" && DESTDIR="$DESTDIR" make install)
+	(cd ${wrksrc}/"build-mingw-crt-${_target}" && DESTDIR="$DESTDIR" make install)
+	(cd ${wrksrc}/"build-mingw-winpthreads-${_target}" && DESTDIR="$DESTDIR" make install)
+}
