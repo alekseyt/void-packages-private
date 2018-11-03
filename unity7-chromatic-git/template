@@ -3,9 +3,9 @@ base_version=750.git
 extra_version=
 version=${base_version}${extra_version}
 revision=1
-wrksrc="unity7"
+wrksrc="unity7-git"
 
-homepage="https://github.com/alekseyt/unity7"
+homepage="https://github.com/alekseyt/unity7-git"
 license="GPL"
 short_desc="Chromatic launcher (derived from Unity 7)"
 maintainer=" <>"
