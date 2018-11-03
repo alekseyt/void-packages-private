@@ -17,10 +17,10 @@ makedepends="gtk+3-devel libnotify-devel appstream-glib-devel json-glib-devel
  libX11-devel libXi-devel libXfixes-devel libXrender-devel glu-devel
  libICE-devel libSM-devel zeitgeist-devel libxslt-devel boost-devel
  bamf-devel libindicator-devel geis-devel
- unity7-glewmx-devel unity7-nux unity7-compiz-devel unity7-libunity"
+ unity7-glewmx-devel unity7-nux unity7-libunity"
 
 build_style="cmake"
-configure_args="-DENABLE_UNIT_TESTS=OFF -Duse_pch=OFF"
+configure_args="-DENABLE_COMPIZ=OFF -DENABLE_UNIT_TESTS=OFF -Duse_pch=OFF"
 
 do_fetch() {
 	git clone --depth 1 -b void ${homepage}
