@@ -21,6 +21,7 @@ makedepends="gtk+3-devel libnotify-devel appstream-glib-devel json-glib-devel
 
 build_style="cmake"
 configure_args="-DENABLE_COMPIZ=OFF -DENABLE_UNIT_TESTS=OFF -Duse_pch=OFF"
+patch_args="-p1"
 
 do_fetch() {
 	git clone --depth 1 -b void ${homepage}
@@ -29,6 +30,7 @@ do_fetch() {
 post_install() {
 	cp "$FILESDIR"/void-bfb.png "$DESTDIR"/usr/share/unity/icons/launcher_bfb.png
 	cp "$FILESDIR"/chromatic "$DESTDIR"/usr/bin/chromatic
+	cp -r "$FILESDIR"/locale/* "$DESTDIR"/usr/share/locale/
 	mkdir -p "$DESTDIR/usr/share/applications/"
 	cp "$FILESDIR/chromatic.desktop" "$DESTDIR/usr/share/applications/"
 }
