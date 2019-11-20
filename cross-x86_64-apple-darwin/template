@@ -1,0 +1,40 @@
+# Template file for 'cross-x86_64-apple-darwin'
+
+_min_osx_ver=10.9  # for c++11 threads
+_osx_sdk_url="http://s3.amazonaws.com/andrew-osx-sdks/MacOSX10.11.sdk.tar.xz"
+
+pkgname=cross-x86_64-apple-darwin
+version=15  # ideally should match macosxsdk
+revision=1
+archs="x86_64* i686*"
+create_wrksrc=no  # osxcross will be cloned into ${wrksrc}
+hostmakedepends="git wget cmake clang"
+makedepends="libxml2-devel libressl-devel python"
+depends="clang"
+short_desc="Cross toolchain for OSX (clang)"
+maintainer=" <>"
+homepage="https://github.com/tpoechtrager/osxcross"
+license="GPL-2.0-or-later"
+
+nopie=yes
+nodebug=yes
+noverifyrdeps=yes
+noshlibprovides=yes
+nostrip=yes
+lib32disabled=yes  # disable build of 32bits packages
+
+do_fetch() {
+	git clone --depth=1 "${homepage}.git" ${wrksrc}
+	(cd ${wrksrc}/tarballs && wget "${_osx_sdk_url}")
+}
+
+do_build() {
+	UNATTENDED=1 OSX_VERSION_MIN=${_min_osx_ver} CC=clang CXX=clang++ ./build.sh
+}
+
+do_install() {
+	_targetdir="usr/"
+
+	vmkdir "${_targetdir}"
+	vcopy "${wrksrc}/target/*" "${_targetdir}"
+}
