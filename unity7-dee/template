@@ -18,7 +18,7 @@ makedepends="gnome-common vala gtk-doc gobject-introspection
  glib-devel icu-devel"
 
 build_style="gnu-configure"
-configure_args="--enable-introspection=yes --enable-tests=no --disable-static"
+configure_args="--enable-introspection=yes --enable-maintainer-flags=no --enable-tests=no --disable-static"
 
 pre_configure() {
 	autoreconf -fi

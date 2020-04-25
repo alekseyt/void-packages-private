@@ -1,9 +1,9 @@
 pkgname=unity7-scope-home
 base_version=6.8.2
-extra_version=+16.04.20160212.1
+extra_version=+19.04.20190412
 version=${base_version}${extra_version}
 revision=1
-wrksrc="unity-scope-home-${version}"
+wrksrc="."
 
 homepage="https://launchpad.net/unity-scope-home"
 license="GPL"
@@ -11,7 +11,7 @@ short_desc="A scope that aggregates results from multiple scopes for Home Lens v
 maintainer=" <>"
 
 distfiles="https://launchpad.net/ubuntu/+archive/primary/+files/unity-scope-home_${version}.orig.tar.gz"
-checksum=9bea8fa84d94acb53824af2f84b0d60eadead18c1cde3c61a37fd74313763f6e
+checksum=070acae8dce62240c1ea2f8afcc7a6ea80704e95e525e294c7b0d79f32e2dcb1
 
 hostmakedepends="automake autoconf libtool intltool pkg-config vala"
 makedepends="gettext-devel glib-devel json-glib-devel libsoup-gnome-devel
